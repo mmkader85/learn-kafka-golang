@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
@@ -16,10 +14,28 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
+
+  init-kafka:
+    image: confluentinc/cp-kafka:7.3.0
+    depends_on:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server kafka:9092 --list
+
+      echo -e 'Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic test-topic --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic queue.orders.order_item.status.updated --replication-factor 1 --partitions 1
+
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:9092 --list
+      "
 
   app:
     build: .
@@ -27,6 +43,14 @@ services:
       - .env
     depends_on:
       - kafka
-    command: ["./main"]
+    command: [ "./main", "httpserver" ]
     ports:
       - "8080:8080"
+
+  consumer:
+    build: .
+    env_file:
+      - .env
+    depends_on:
+      - kafka
+    command: [ "./main", "consumer" ]

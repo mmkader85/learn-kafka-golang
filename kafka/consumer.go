@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/segmentio/kafka-go"
 )
 
 func init() {

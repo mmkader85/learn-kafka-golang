@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -8,13 +9,13 @@ import (
 )
 
 func SendMessage(c *gin.Context) {
-	var json map[string]interface{}
-	if err := c.ShouldBindJSON(&json); err != nil {
+	var payload map[string]interface{}
+	if err := c.ShouldBindJSON(&payload); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	message, err := json.Marshal(json)
+	message, err := json.Marshal(payload)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
