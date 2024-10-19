@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/mmkader85/learn_kafka_golang/api"
+	"github.com/mmkader85/learn-kafka-golang/api"
 	"github.com/spf13/cobra"
 )
 

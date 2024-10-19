@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/mmkader85/learn_kafka_golang/cmd"
+	"github.com/mmkader85/learn-kafka-golang/cmd"
 )
 
 func main() {

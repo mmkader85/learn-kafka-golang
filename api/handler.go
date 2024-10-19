@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mmkader85/learn_kafka_golang/kafka"
+	"github.com/mmkader85/learn-kafka-golang/kafka"
 )
 
 func SendMessage(c *gin.Context) {

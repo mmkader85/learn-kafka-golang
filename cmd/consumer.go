@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/mmkader85/learn_kafka_golang/kafka"
+	"github.com/mmkader85/learn-kafka-golang/kafka"
 	"github.com/spf13/cobra"
 )
 
