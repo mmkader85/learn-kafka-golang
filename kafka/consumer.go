@@ -27,4 +27,5 @@ func StartConsumer() {
 		}
 		log.Printf("received: %s", string(msg.Value))
 	}
+
 }
